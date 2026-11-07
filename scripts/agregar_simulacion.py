@@ -12,7 +12,7 @@ COLUMNAS = [
 
 CASOS = {
     "valido": {
-        "name": "SIMULADO-MISION-ORION-2026",
+        "name": "SIMULADO-Prueba-clase",
         "mass (g)": "1234.5",
         "reclat": "12.345",
         "reclong": "-45.678",
