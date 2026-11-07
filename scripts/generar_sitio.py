@@ -2232,10 +2232,10 @@ def crear_html(indicadores, commit="LOCAL"):
             formato(total),
             total,
             "Total Catálogo",
-            "Muestras verificadas del CSV oficial",
+            "Registros validados del CSV versionado",
             "Catálogo global analizado",
             "Filas válidas",
-            "Conteo total de registros depurados sin duplicados.",
+            "Conteo de registros válidos, incluidas las simulaciones educativas.",
             "OBS-01"
         ),
         tarjeta_kpi(
@@ -2382,7 +2382,7 @@ def crear_html(indicadores, commit="LOCAL"):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
-          content="Centro de Control y Observatorio de Meteoritos NASA. Telemetría de 20.000 registros procesados mediante CI/CD y Python.">
+          content="Centro de Control y Observatorio de Meteoritos NASA. Telemetría de {formato(total)} registros procesados mediante CI/CD y Python.">
     <title>Meteorite Observatory | CI/CD</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2762,7 +2762,7 @@ def crear_html(indicadores, commit="LOCAL"):
                target="_blank" rel="noopener noreferrer">
                 Meteorite Landings — NASA Open Data
             </a>, compilado por The Meteoritical Society.
-            La muestra conserva íntegramente las primeras 20.000 filas validadas.
+            La muestra inicial conserva las primeras 20.000 filas validadas de la fuente. El CSV versionado contiene actualmente {formato(total)} registros, incluidas las simulaciones educativas incorporadas durante las pruebas.
         </p>
 
         <div class="academic-notice">
