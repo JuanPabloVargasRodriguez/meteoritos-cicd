@@ -251,3 +251,85 @@ def test_html_escapa_contenido():
 
     assert "&lt;script&gt;" in html
     assert "<script>alert(1)</script>" not in html
+
+
+# 18. Las tarjetas KPI deben contar con tooltips metodológicos accesibles
+def test_kpis_contienen_tooltips_metodologicos():
+    registros = [
+        fila_valida("1", **{"mass (g)": "100"}),
+        fila_valida("2", fall="Found", **{"mass (g)": "300"})
+    ]
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores)
+
+    assert 'role="tooltip"' in html
+    assert "Indicador:" in html
+    assert "Unidad:" in html
+    assert "Método:" in html
+    assert "kpi-total" in html
+    assert "kpi-fell" in html
+    assert "kpi-found" in html
+    assert "kpi-media" in html
+    assert "kpi-sin_masa" in html
+
+
+# 19. El sitio debe soportar accesibilidad y prefers-reduced-motion
+def test_accesibilidad_y_reduced_motion():
+    registros = [fila_valida("1")]
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores)
+
+    assert "prefers-reduced-motion: reduce" in html
+    assert ":focus-visible" in html
+    assert 'tabindex="0"' in html
+    assert 'aria-label=' in html
+
+
+# 20. La ficha modal interactiva debe existir con estructura y datos serializados
+def test_modal_ficha_tecnica_estructura():
+    registros = [
+        fila_valida("10", name="Meteorito Especial", recclass="H5", **{"mass (g)": "450"})
+    ]
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores)
+
+    assert 'id="modal-ficha"' in html
+    assert 'role="dialog"' in html
+    assert 'aria-modal="true"' in html
+    assert 'id="modal-cerrar-btn"' in html
+    assert 'data-record=' in html
+    assert "Meteorito Especial" in html
+
+
+# 21. El ranking de masas debe incluir el panel spotlight y conversiones de unidades (kg/t)
+def test_ranking_spotlight_y_conversiones():
+    registros = [
+        fila_valida("1", name="Hoba", **{"mass (g)": "60000000"})
+    ]
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores)
+
+    assert 'id="ranking-spotlight"' in html
+    assert "Espectrometría de Masa" in html
+    assert "kg" in html
+    assert "t" in html
+    assert "Hoba" in html
+
+
+# 22. Gráficos interactivos de clasificaciones y donut Fell/Found
+def test_interactividad_clasificaciones_y_donut():
+    registros = [
+        fila_valida("1", recclass="L6", fall="Fell"),
+        fila_valida("2", recclass="H5", fall="Found")
+    ]
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores)
+
+    assert 'id="panel-clases"' in html
+    assert 'data-clase="L6"' in html
+    assert 'id="card-fell"' in html
+    assert 'id="card-found"' in html
+    assert "Caída observada" in html or "Caídas" in html
+    assert "Hallazgo" in html
+    assert 'id="space-canvas"' in html
+
