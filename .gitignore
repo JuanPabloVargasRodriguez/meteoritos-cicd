@@ -2,3 +2,5 @@ original/
 .venv/
 __pycache__/
 .pytest_cache/
+public/
+evidencias/

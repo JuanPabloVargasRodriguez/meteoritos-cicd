@@ -218,3 +218,36 @@ def test_masa_nan(tmp_path):
     _, errores = validar_archivo(ruta)
 
     assert contiene_error(errores, "no es finito")
+
+
+from scripts.generar_sitio import crear_html
+
+
+# 16. El HTML contiene indicadores calculados y commit.
+def test_generacion_html():
+    registros = [
+        fila_valida("1", name="Meteorito de ejemplo"),
+        fila_valida("2", fall="Found")
+    ]
+
+    indicadores = calcular_indicadores(registros)
+    html = crear_html(indicadores, "abc123")
+
+    assert "Meteorite Observatory" in html
+    assert "Meteorito de ejemplo" in html
+    assert "abc123" in html
+    assert "Masa media" in html
+
+
+# 17. El contenido del CSV no debe ejecutar HTML.
+def test_html_escapa_contenido():
+    registro = fila_valida(
+        "1",
+        name="<script>alert(1)</script>"
+    )
+
+    indicadores = calcular_indicadores([registro])
+    html = crear_html(indicadores)
+
+    assert "&lt;script&gt;" in html
+    assert "<script>alert(1)</script>" not in html
